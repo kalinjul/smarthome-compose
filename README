@@ -1,1 +1,27 @@
 # smarthome-compose
+Inspired by https://github.com/henfri/docker
+
+This is a docker-compose file with required config directories for running:
+- smarthome-ng
+- smartvisu
+- knxd
+
+Currently not running (but originally included in henfri's compose file):
+- owfs (one wire)
+- influxdb
+- grafana
+- openhab
+
+To run this, you will need git and docker-compose.
+
+# Install docker compose
+
+# Clone this repository
+
+# Configuration of KNXd
+
+# Configuration of smarthome-ng
+
+# Configuration of smartvisu
+
+# Startup
