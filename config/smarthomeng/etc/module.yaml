@@ -1,0 +1,9 @@
+http:
+    module_name: http
+    port: 8383
+#    servicesport: 8384
+#    showpluginlist: False
+    showservicelist: True
+#    starturl: backend
+#    threads: 8
+#    showtraceback: True
