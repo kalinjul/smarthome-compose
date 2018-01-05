@@ -18,10 +18,22 @@ To run this, you will need git and docker-compose.
 
 # Clone this repository
 
+```git clone git@github.com:julakali/smarthome-compose.git```
+
 # Configuration of KNXd
 
 # Configuration of smarthome-ng
 
-# Configuration of smartvisu
+# Installation/Configuration of smartvisu
+
+Change to the directory in which docker-compose.yml is located.
+```
+wget http://www.smartvisu.de/download/smartVISU_2.8.zip
+unzip smartVISU_2.8.zip
+```
+SmartVISU files should now be in <directory of docker-compose.yml>/smartVISU.
+The smarthome-ng plugin 'smartvisu' will generate its pages to smartVISU/pages/.
 
 # Startup
+
+```docker-compose up```

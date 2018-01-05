@@ -21,7 +21,7 @@ smarthome-ng:
    - ./config/smarthomeng/plugins/alexa:/usr/local/smarthome/plugins/alexa
    - ./config/smarthomeng/plugins/chromecast:/usr/local/smarthome/plugins/chromecast
    - ./config/smarthomeng/plugins/IpythonServer:/usr/local/smarthome/plugins/IpythonServer
-   - ./smartvisu:/usr/local/smarthome/smartvisu
+   - ./smartVISU:/usr/local/smarthome/smartvisu
 #   - /dev/Lohberger:/dev/Lohberger
 #   - /dev/ttyUSB1:/dev/ttyUSB1
   privileged: true
@@ -82,7 +82,7 @@ smartvisu:
   image: richarvey/nginx-php-fpm
 #  image: henfri/smartvisu
   volumes:
-   - ./smartvisu/:/var/www/html
+   - ./smartVISU/:/var/www/html
   ports: 
    - 8080:80
   links:
