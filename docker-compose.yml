@@ -1,0 +1,130 @@
+smarthome-ng:
+#  build: smarthome-ng-dev/.
+  #image: henfri/smarthome-ng-dev:latest
+  image: julakali/smarthome-ng:v1.4.1-fixpid
+  volumes:
+   - ./config/smarthomeng/etc:/usr/local/smarthome/etc
+   - ./config/smarthomeng/items:/usr/local/smarthome/items
+   - ./config/smarthomeng/logics:/usr/local/smarthome/logics
+   - ./config/smarthomeng/scenes:/usr/local/smarthome/scenes
+   - ./config/smarthomeng/tools:/usr/local/smarthome/tools
+#   - ./config/smarthomeng/var:/usr/local/smarthome/var # var needs to contain a "run" and "log" directory, makes no sense as volume
+   - ./config/smarthomeng/plugins/ag980:/usr/local/smarthome/plugins/ag980
+   - ./config/smarthomeng/plugins/logiceditor:/usr/local/smarthome/plugins/logiceditor
+   - ./config/smarthomeng/plugins/lohberger:/usr/local/smarthome/plugins/lohberger
+   - ./config/smarthomeng/plugins/uzsu:/usr/local/smarthome/plugins/uzsu
+   - ./config/smarthomeng/plugins/whatsapp:/usr/local/smarthome/plugins/whatsapp
+   - ./config/smarthomeng/plugins/denon:/usr/local/smarthome/plugins/denon
+   - ./config/smarthomeng/plugins/wol:/usr/local/smarthome/plugins/wol
+   - ./config/smarthomeng/plugins/speech:/usr/local/smarthome/plugins/speech
+   - ./config/smarthomeng/plugins/influx:/usr/local/smarthome/plugins/influx
+   - ./config/smarthomeng/plugins/alexa:/usr/local/smarthome/plugins/alexa
+   - ./config/smarthomeng/plugins/chromecast:/usr/local/smarthome/plugins/chromecast
+   - ./config/smarthomeng/plugins/IpythonServer:/usr/local/smarthome/plugins/IpythonServer
+   - ./smartvisu:/usr/local/smarthome/smartvisu
+#   - /dev/Lohberger:/dev/Lohberger
+#   - /dev/ttyUSB1:/dev/ttyUSB1
+  privileged: true
+  ports: 
+   - "2323:2323" # cli port (telnet)
+   - "2424:2424" # smartvisu websocket port
+#  - "2788:2788"
+   - "8383:8383" # backend port
+#  - "9010:9010"
+##  - "1900:1900"
+##  - "1900:1900/udp"
+#  links: 
+#   - "knxd"
+#   - "owfs"
+#   - "smartvisu"
+#   - "grafana"
+#   - "influxdb"
+#  net: "host"
+#  command: "/usr/local/bin/run.sh"
+#  command: "/usr/local/smarthome/bin/smarthome.py"
+#  command: "/bin/bash"
+#restart: never
+
+  
+knxd:
+#  build: ./knxd/.
+  image: julakali/knxd:latest
+#  ports: 
+#  - "4720:4720"
+#  - "6720:6720"
+#  - "3671/udp:3671/udp"
+  net: "host"
+#  command: knxd -t 65535 -e=1.0.217 -D -T -R -S -i --GroupCache -b ipt:192.168.177.24
+#  command: knxd --error=0  -t 65535 -e=1.0.216 -D -T -R -S -i --GroupCache --no-tunnel-client-queuing -b ipt:192.168.177.24
+#  command: knxd --error=0 -D -T -R -S -i --GroupCache --no-tunnel-client-queuing -b ipt:192.168.177.24
+  #command: knxd -e 0.0.1 -E 0.0.2:8 -DTRS -c -i --send-delay=120 -B single -b ipt:192.168.2.220
+  command: knxd -e 1.1.240 -E 1.1.241:8 -DTRS -c -i --send-delay=30 -b ipt:192.168.2.220
+  restart: always
+
+#owfs:
+#  build: ./owfs/.
+#  image: henfri/owfs
+#  devices:
+#  - /dev/PBM:/dev/PBM
+#  - /dev/ttyUSB0:/dev/ttyUSB0
+#  command: /usr/sbin/owserver -p 0.0.0.0:4304 --pbm=/dev/ttyUSB0 --error_level=0 --error_print=2 --foreground > /dev/null 2>&1 #/dev/PBM  -uall -uscan  
+#  command: /bin/sh -c "/usr/sbin/owserver -p 0.0.0.0:4304 --pbm=/dev/ttyUSB0 & while true;  do sleep 120; done"
+ 
+  ports:
+   - "4304:4304"
+#  command: /usr/bin/supervisord
+  restart: always
+  privileged: true
+
+
+smartvisu:
+#  image: julakali/nginx-php-fpm
+  image: richarvey/nginx-php-fpm
+#  image: henfri/smartvisu
+  volumes:
+   - ./smartvisu/:/var/www/html
+  ports: 
+   - 8080:80
+  links:
+   - smarthome-ng
+  restart: always
+
+#influxdb:
+#  image: influxdb:latest
+#  volumes:
+#   - ./influxvarlib/:/var/lib/influxdb
+#  ports: 
+#   - 8083:8083
+#   - 8086:8086
+#   - 8090:8090
+#  restart: always
+
+#grafana:
+#  image: grafana/grafana:latest
+#  volumes:
+#   - ./grafanavarlib/:/var/lib/grafana
+#  ports: 
+#   - 3000:3000
+#  restart: always
+#  links:
+#   - influxdb
+
+
+#openhab:
+#  image: "openhab/openhab:2.2.0-amd64-debian"
+#  restart: always
+#  net: host
+#  tty: true
+#  volumes:
+#    - "/etc/localtime:/etc/localtime:ro"
+#    - "/etc/timezone:/etc/timezone:ro"
+#    - "./openhab/userdata:/openhab/userdata"
+#    - "./openhab/conf:/openhab/conf"
+#  environment:
+#    OPENHAB_HTTP_PORT: "8082"
+#    OPNEHAB_HTTPS_PORT: "8444"
+#  ports: 
+#   - 8082:8080
+#   - 8444:8443
+#  command: server
+#  user: "997"
