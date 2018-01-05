@@ -1,7 +1,7 @@
 smarthome-ng:
 #  build: smarthome-ng-dev/.
   #image: henfri/smarthome-ng-dev:latest
-  image: julakali/smarthome-ng:v1.4.1-fixpid
+  image: julakali/smarthome-ng:v1.4.2
   volumes:
    - ./config/smarthomeng/etc:/usr/local/smarthome/etc
    - ./config/smarthomeng/items:/usr/local/smarthome/items
