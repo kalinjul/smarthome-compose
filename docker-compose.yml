@@ -3,11 +3,11 @@ smarthome-ng:
   #image: henfri/smarthome-ng-dev:latest
   image: julakali/smarthome-ng:v1.4.2
   volumes:
-   - ./config/smarthomeng/etc:/usr/local/smarthome/etc
-   - ./config/smarthomeng/items:/usr/local/smarthome/items
-   - ./config/smarthomeng/logics:/usr/local/smarthome/logics
-   - ./config/smarthomeng/scenes:/usr/local/smarthome/scenes
-   - ./config/smarthomeng/tools:/usr/local/smarthome/tools
+   - ./myconfig/smarthomeng/etc:/usr/local/smarthome/etc
+   - ./myconfig/smarthomeng/items:/usr/local/smarthome/items
+   - ./myconfig/smarthomeng/logics:/usr/local/smarthome/logics
+   - ./myconfig/smarthomeng/scenes:/usr/local/smarthome/scenes
+   - ./myconfig/smarthomeng/tools:/usr/local/smarthome/tools
 #   - ./config/smarthomeng/var:/usr/local/smarthome/var # var needs to contain a "run" and "log" directory, makes no sense as volume
    - ./config/smarthomeng/plugins/ag980:/usr/local/smarthome/plugins/ag980
    - ./config/smarthomeng/plugins/logiceditor:/usr/local/smarthome/plugins/logiceditor
