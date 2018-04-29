@@ -33,8 +33,8 @@ smarthome-ng:
 #  - "9010:9010"
 ##  - "1900:1900"
 ##  - "1900:1900/udp"
-  links: 
-   - "knxd"
+#  links: 
+#   - "knxd"
 #   - "owfs"
 #   - "smartvisu"
 #   - "grafana"
@@ -48,12 +48,13 @@ smarthome-ng:
   
 knxd:
 #  build: ./knxd/.
-  image: julakali/knxd:latest
-#  ports: 
+  image: julakali/knxd:v0.14.24-1
+  ports: 
 #  - "4720:4720"
-#  - "6720:6720"
-#  - "3671/udp:3671/udp"
-#  net: "host"
+  - "6720:6720"
+  - "3671/udp:3671/udp"
+  - "3672:3672"
+  net: "host"
 #  command: knxd -t 65535 -e=1.0.217 -D -T -R -S -i --GroupCache -b ipt:192.168.177.24
 #  command: knxd --error=0  -t 65535 -e=1.0.216 -D -T -R -S -i --GroupCache --no-tunnel-client-queuing -b ipt:192.168.177.24
 #  command: knxd --error=0 -D -T -R -S -i --GroupCache --no-tunnel-client-queuing -b ipt:192.168.177.24
