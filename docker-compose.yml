@@ -62,6 +62,8 @@ knxd:
   #command: knxd -e 0.0.1 -E 0.0.2:8 -DTRS -c -i --send-delay=120 -B single -b ipt:192.168.2.220
   #command: knxd -e 1.1.240 -E 1.1.241:8 -DTRS -c -i --send-delay=30 -b ipt:192.168.2.220
   # mount own config to knxd.ini!
+  volumes:
+    - ./config/knxd.ini:/etc/knxd.ini
   command: knxd /etc/knxd.ini
   restart: always
 
