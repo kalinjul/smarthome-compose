@@ -47,25 +47,19 @@ smarthome-ng:
 #restart: never
 
 
-knxd:
-#  build: ./knxd/.
-  image: julakali/knxd:v0.14.24-1
-  ports:
-#  - "4720:4720"
-  - "6720:6720"
-  - "3671/udp:3671/udp"
-  - "3672:3672"
-  net: "host"
-#  command: knxd -t 65535 -e=1.0.217 -D -T -R -S -i --GroupCache -b ipt:192.168.177.24
-#  command: knxd --error=0  -t 65535 -e=1.0.216 -D -T -R -S -i --GroupCache --no-tunnel-client-queuing -b ipt:192.168.177.24
-#  command: knxd --error=0 -D -T -R -S -i --GroupCache --no-tunnel-client-queuing -b ipt:192.168.177.24
-  #command: knxd -e 0.0.1 -E 0.0.2:8 -DTRS -c -i --send-delay=120 -B single -b ipt:192.168.2.220
-  #command: knxd -e 1.1.240 -E 1.1.241:8 -DTRS -c -i --send-delay=30 -b ipt:192.168.2.220
-  # mount own config to knxd.ini!
-  volumes:
-    - ./config/knxd.ini:/etc/knxd.ini
-  command: knxd /etc/knxd.ini
-  restart: always
+#knxd:
+##  build: ./knxd/.
+#  image: julakali/knxd:v0.14.24-1
+#  ports:
+##  - "4720:4720"
+#  - "6720:6720"
+#  - "3671/udp:3671/udp"
+#  - "3672:3672"
+#  net: "host"
+## command: knxd -e 1.1.240 -E 1.1.241:8 -DTRS -c -i --send-delay=30 -b ipt:192.168.2.220
+## mount own config to knxd.ini!
+#  command: knxd /etc/knxd.ini
+#  restart: always
 
 #owfs:
 #  build: ./owfs/.
@@ -76,11 +70,11 @@ knxd:
 #  command: /usr/sbin/owserver -p 0.0.0.0:4304 --pbm=/dev/ttyUSB0 --error_level=0 --error_print=2 --foreground > /dev/null 2>&1 #/dev/PBM  -uall -uscan
 #  command: /bin/sh -c "/usr/sbin/owserver -p 0.0.0.0:4304 --pbm=/dev/ttyUSB0 & while true;  do sleep 120; done"
 
-  ports:
-   - "4304:4304"
+#  ports:
+#   - "4304:4304"
 #  command: /usr/bin/supervisord
-  restart: always
-  privileged: true
+#  restart: always
+#  privileged: true
 
 
 smartvisu:
