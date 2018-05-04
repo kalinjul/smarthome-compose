@@ -45,22 +45,24 @@ smarthome-ng:
 #  command: "/usr/local/bin/run.sh"
 #  command: "/usr/local/smarthome/bin/smarthome.py"
 #  command: "/bin/bash"
-#restart: never
+  restart: always
 
 
-#knxd:
-##  build: ./knxd/.
-#  image: julakali/knxd:v0.14.24-1
-#  ports:
-##  - "4720:4720"
-#  - "6720:6720"
-#  - "3671/udp:3671/udp"
-#  - "3672:3672"
-#  net: "host"
-## command: knxd -e 1.1.240 -E 1.1.241:8 -DTRS -c -i --send-delay=30 -b ipt:192.168.2.220
-## mount own config to knxd.ini!
-#  command: knxd /etc/knxd.ini
-#  restart: always
+knxd:
+#  build: ./knxd/.
+  image: julakali/knxd:v0.14.24-1
+  ports:
+#  - "4720:4720"
+  - "6720:6720"
+  - "3671/udp:3671/udp"
+  - "3672:3672"
+  net: "host"
+# command: knxd -e 1.1.240 -E 1.1.241:8 -DTRS -c -i --send-delay=30 -b ipt:192.168.2.220
+# mount own config to knxd.ini!
+  volumes:
+    - ./config/knxd.ini:/etc/knxd.ini
+  command: knxd /etc/knxd.ini
+  restart: always
 
 #owfs:
 #  build: ./owfs/.
