@@ -1,7 +1,7 @@
 smarthome-ng:
 #  build: smarthome-ng-dev/.
   #image: henfri/smarthome-ng-dev:latest
-  image: julakali/smarthome-ng:v1.4.2
+  build: smarthome-ng-broadlink
   volumes:
    - ./myconfig/smarthomeng/etc:/usr/local/smarthome/etc
    - ./myconfig/smarthomeng/items:/usr/local/smarthome/items
@@ -22,6 +22,7 @@ smarthome-ng:
    - ./config/smarthomeng/plugins/chromecast:/usr/local/smarthome/plugins/chromecast
    - ./config/smarthomeng/plugins/IpythonServer:/usr/local/smarthome/plugins/IpythonServer
    - ./smartVISU:/usr/local/smarthome/smartvisu
+   - ./myconfig/broadlink:/usr/local/smarthome/broadlink
 #   - /dev/Lohberger:/dev/Lohberger
 #   - /dev/ttyUSB1:/dev/ttyUSB1
   privileged: true
