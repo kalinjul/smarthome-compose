@@ -8,6 +8,7 @@ smarthome-ng:
    - ./myconfig/smarthomeng/logics:/usr/local/smarthome/logics
    - ./myconfig/smarthomeng/scenes:/usr/local/smarthome/scenes
    - ./myconfig/smarthomeng/tools:/usr/local/smarthome/tools
+   - ./myconfig/smarthomeng/plugins/thz:/usr/local/smarthome/plugins/thz
 #   - ./config/smarthomeng/var:/usr/local/smarthome/var # var needs to contain a "run" and "log" directory, makes no sense as volume
    - ./config/smarthomeng/plugins/ag980:/usr/local/smarthome/plugins/ag980
    - ./config/smarthomeng/plugins/logiceditor:/usr/local/smarthome/plugins/logiceditor
@@ -24,7 +25,8 @@ smarthome-ng:
    - ./smartVISU:/usr/local/smarthome/smartvisu
    - ./myconfig/broadlink:/usr/local/smarthome/broadlink
 #   - /dev/Lohberger:/dev/Lohberger
-#   - /dev/ttyUSB1:/dev/ttyUSB1
+    # for heatpump serial com:
+   - /dev/ttyUSB0:/dev/ttyUSB0
   privileged: true
   ports:
    - "2323:2323" # cli port (telnet)
@@ -35,12 +37,12 @@ smarthome-ng:
 #  - "9010:9010"
 ##  - "1900:1900"
 ##  - "1900:1900/udp"
-#  links:
+  links:
 #   - "knxd"
 #   - "owfs"
 #   - "smartvisu"
-#   - "grafana"
-#   - "influxdb"
+   - "grafana"
+   - "influxdb"
 #  net: "host"
 #  command: "/usr/local/bin/run.sh"
 #  command: "/usr/local/smarthome/bin/smarthome.py"
@@ -92,25 +94,25 @@ smartvisu:
    - smarthome-ng
   restart: always
 
-#influxdb:
-#  image: influxdb:latest
-#  volumes:
-#   - ./influxvarlib/:/var/lib/influxdb
-#  ports:
-#   - 8083:8083
-#   - 8086:8086
-#   - 8090:8090
-#  restart: always
+influxdb:
+  image: influxdb:latest
+  volumes:
+   - ./influxvarlib/:/var/lib/influxdb
+  ports:
+   - 8083:8083
+   - 8086:8086
+   - 8090:8090
+  restart: always
 
-#grafana:
-#  image: grafana/grafana:latest
-#  volumes:
-#   - ./grafanavarlib/:/var/lib/grafana
-#  ports:
-#   - 3000:3000
-#  restart: always
-#  links:
-#   - influxdb
+grafana:
+  image: grafana/grafana:latest
+  volumes:
+   - ./grafanavarlib/:/var/lib/grafana
+  ports:
+   - 3000:3000
+  restart: always
+  links:
+   - influxdb
 
 
 #openhab:
