@@ -28,9 +28,13 @@ services:
      - ./smartVISU:/usr/local/smarthome/smartvisu
      - ./myconfig/broadlink:/usr/local/smarthome/broadlink
   #   - /dev/Lohberger:/dev/Lohberger
-      # for heatpump serial com:
-     - /dev/ttyUSB0:/dev/ttyUSB0
+     - /dev:/dev
     privileged: true
+    devices:
+      - /dev/ttyHeizung:/dev/ttyHeizung
+      - /dev/ttyStrom:/dev/ttyStrom
+      - /dev/ttyStromWP:/dev/ttyStromWP
+
     ports:
      - "2323:2323" # cli port (telnet)
      - "2424:2424" # smartvisu websocket port
