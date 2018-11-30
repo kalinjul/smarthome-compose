@@ -1,135 +1,142 @@
-smarthome-ng:
-#  build: smarthome-ng-dev/.
-  #image: henfri/smarthome-ng-dev:latest
-  build: smarthome-ng-broadlink
-  volumes:
-   - ./myconfig/smarthomeng/etc:/usr/local/smarthome/etc
-   - ./myconfig/smarthomeng/items:/usr/local/smarthome/items
-   - ./myconfig/smarthomeng/logics:/usr/local/smarthome/logics
-   - ./myconfig/smarthomeng/scenes:/usr/local/smarthome/scenes
-   - ./myconfig/smarthomeng/tools:/usr/local/smarthome/tools
-   - ./myconfig/smarthomeng/plugins/thz:/usr/local/smarthome/plugins/thz
-#   - ./config/smarthomeng/var:/usr/local/smarthome/var # var needs to contain a "run" and "log" directory, makes no sense as volume
-   - ./config/smarthomeng/plugins/ag980:/usr/local/smarthome/plugins/ag980
-   - ./config/smarthomeng/plugins/logiceditor:/usr/local/smarthome/plugins/logiceditor
-   - ./config/smarthomeng/plugins/lohberger:/usr/local/smarthome/plugins/lohberger
-   - ./config/smarthomeng/plugins/uzsu:/usr/local/smarthome/plugins/uzsu
-   - ./config/smarthomeng/plugins/whatsapp:/usr/local/smarthome/plugins/whatsapp
-   - ./config/smarthomeng/plugins/denon:/usr/local/smarthome/plugins/denon
-   - ./config/smarthomeng/plugins/wol:/usr/local/smarthome/plugins/wol
-   - ./config/smarthomeng/plugins/speech:/usr/local/smarthome/plugins/speech
-   - ./config/smarthomeng/plugins/influx:/usr/local/smarthome/plugins/influx
-   - ./config/smarthomeng/plugins/alexa:/usr/local/smarthome/plugins/alexa
-   - ./config/smarthomeng/plugins/chromecast:/usr/local/smarthome/plugins/chromecast
-   - ./config/smarthomeng/plugins/IpythonServer:/usr/local/smarthome/plugins/IpythonServer
-   - ./smartVISU:/usr/local/smarthome/smartvisu
-   - ./myconfig/broadlink:/usr/local/smarthome/broadlink
-#   - /dev/Lohberger:/dev/Lohberger
-    # for heatpump serial com:
-   - /dev/ttyUSB0:/dev/ttyUSB0
-  privileged: true
-  ports:
-   - "2323:2323" # cli port (telnet)
-   - "2424:2424" # smartvisu websocket port
-#  - "2788:2788"
-   - "8383:8383" # backend port
-   - "4321:4321" # http servicesport (rest)
-#  - "9010:9010"
-##  - "1900:1900"
-##  - "1900:1900/udp"
-  links:
-#   - "knxd"
-#   - "owfs"
-#   - "smartvisu"
-   - "grafana"
-   - "influxdb"
-#  net: "host"
-#  command: "/usr/local/bin/run.sh"
-#  command: "/usr/local/smarthome/bin/smarthome.py"
-#  command: "/bin/bash"
-  restart: always
+version: "2"
+
+services:
+  smarthome-ng:
+  #  build: smarthome-ng-dev/.
+    #image: henfri/smarthome-ng-dev:latest
+    build: smarthome-ng-broadlink
+    volumes:
+     - ./myconfig/smarthomeng/etc:/usr/local/smarthome/etc
+     - ./myconfig/smarthomeng/items:/usr/local/smarthome/items
+     - ./myconfig/smarthomeng/logics:/usr/local/smarthome/logics
+     - ./myconfig/smarthomeng/scenes:/usr/local/smarthome/scenes
+     - ./myconfig/smarthomeng/tools:/usr/local/smarthome/tools
+     - ./myconfig/smarthomeng/plugins/thz:/usr/local/smarthome/plugins/thz
+  #   - ./config/smarthomeng/var:/usr/local/smarthome/var # var needs to contain a "run" and "log" directory, makes no sense as volume
+     - ./config/smarthomeng/plugins/ag980:/usr/local/smarthome/plugins/ag980
+     - ./config/smarthomeng/plugins/logiceditor:/usr/local/smarthome/plugins/logiceditor
+     - ./config/smarthomeng/plugins/lohberger:/usr/local/smarthome/plugins/lohberger
+     - ./config/smarthomeng/plugins/uzsu:/usr/local/smarthome/plugins/uzsu
+     - ./config/smarthomeng/plugins/whatsapp:/usr/local/smarthome/plugins/whatsapp
+     - ./config/smarthomeng/plugins/denon:/usr/local/smarthome/plugins/denon
+     - ./config/smarthomeng/plugins/wol:/usr/local/smarthome/plugins/wol
+     - ./config/smarthomeng/plugins/speech:/usr/local/smarthome/plugins/speech
+     - ./config/smarthomeng/plugins/influx:/usr/local/smarthome/plugins/influx
+     - ./config/smarthomeng/plugins/alexa:/usr/local/smarthome/plugins/alexa
+     - ./config/smarthomeng/plugins/chromecast:/usr/local/smarthome/plugins/chromecast
+     - ./config/smarthomeng/plugins/IpythonServer:/usr/local/smarthome/plugins/IpythonServer
+     - ./smartVISU:/usr/local/smarthome/smartvisu
+     - ./myconfig/broadlink:/usr/local/smarthome/broadlink
+  #   - /dev/Lohberger:/dev/Lohberger
+      # for heatpump serial com:
+     - /dev/ttyUSB0:/dev/ttyUSB0
+    privileged: true
+    ports:
+     - "2323:2323" # cli port (telnet)
+     - "2424:2424" # smartvisu websocket port
+  #  - "2788:2788"
+     - "8383:8383" # backend port
+     - "4321:4321" # http servicesport (rest)
+  #  - "9010:9010"
+  ##  - "1900:1900"
+  ##  - "1900:1900/udp"
+    links:
+  #   - "knxd"
+  #   - "owfs"
+  #   - "smartvisu"
+     - "grafana"
+     - "influxdb"
+  #  net: "host"
+  #  command: "/usr/local/bin/run.sh"
+  #  command: "/usr/local/smarthome/bin/smarthome.py"
+  #  command: "/bin/bash"
+    restart: always
+    depends_on:
+      - "influxdb"
 
 
-knxd:
-#  build: ./knxd/.
-  image: julakali/knxd:v0.14.24-1
-  ports:
-#  - "4720:4720"
-  - "6720:6720"
-  - "3671/udp:3671/udp"
-  - "3672:3672"
-  net: "host"
-# command: knxd -e 1.1.240 -E 1.1.241:8 -DTRS -c -i --send-delay=30 -b ipt:192.168.2.220
-# mount own config to knxd.ini!
-  volumes:
-    - ./config/knxd.ini:/etc/knxd.ini
-  command: knxd /etc/knxd.ini
-  restart: always
+  knxd:
+  #  build: ./knxd/.
+    image: julakali/knxd:v0.14.24-1
+    ports:
+  #  - "4720:4720"
+    - "6720:6720"
+    - "3671/udp:3671/udp"
+    - "3672:3672"
+    network_mode: "host"
+  # command: knxd -e 1.1.240 -E 1.1.241:8 -DTRS -c -i --send-delay=30 -b ipt:192.168.2.220
+  # mount own config to knxd.ini!
+    volumes:
+      - ./config/knxd.ini:/etc/knxd.ini
+    command: knxd /etc/knxd.ini
+    restart: always
 
-#owfs:
-#  build: ./owfs/.
-#  image: henfri/owfs
-#  devices:
-#  - /dev/PBM:/dev/PBM
-#  - /dev/ttyUSB0:/dev/ttyUSB0
-#  command: /usr/sbin/owserver -p 0.0.0.0:4304 --pbm=/dev/ttyUSB0 --error_level=0 --error_print=2 --foreground > /dev/null 2>&1 #/dev/PBM  -uall -uscan
-#  command: /bin/sh -c "/usr/sbin/owserver -p 0.0.0.0:4304 --pbm=/dev/ttyUSB0 & while true;  do sleep 120; done"
+  #owfs:
+  #  build: ./owfs/.
+  #  image: henfri/owfs
+  #  devices:
+  #  - /dev/PBM:/dev/PBM
+  #  - /dev/ttyUSB0:/dev/ttyUSB0
+  #  command: /usr/sbin/owserver -p 0.0.0.0:4304 --pbm=/dev/ttyUSB0 --error_level=0 --error_print=2 --foreground > /dev/null 2>&1 #/dev/PBM  -uall -uscan
+  #  command: /bin/sh -c "/usr/sbin/owserver -p 0.0.0.0:4304 --pbm=/dev/ttyUSB0 & while true;  do sleep 120; done"
 
-#  ports:
-#   - "4304:4304"
-#  command: /usr/bin/supervisord
-#  restart: always
-#  privileged: true
-
-
-smartvisu:
-#  image: julakali/nginx-php-fpm
-  image: richarvey/nginx-php-fpm
-#  image: henfri/smartvisu
-  volumes:
-   - ./smartVISU/:/var/www/html
-  ports:
-   - 8080:80
-  links:
-   - smarthome-ng
-  restart: always
-
-influxdb:
-  image: influxdb:latest
-  volumes:
-   - ./influxvarlib/:/var/lib/influxdb
-  ports:
-   - 8083:8083
-   - 8086:8086
-   - 8090:8090
-  restart: always
-
-grafana:
-  image: grafana/grafana:latest
-  volumes:
-   - ./grafanavarlib/:/var/lib/grafana
-  ports:
-   - 3000:3000
-  restart: always
-  links:
-   - influxdb
+  #  ports:
+  #   - "4304:4304"
+  #  command: /usr/bin/supervisord
+  #  restart: always
+  #  privileged: true
 
 
-#openhab:
-#  image: "openhab/openhab:2.2.0-amd64-debian"
-#  restart: always
-#  net: host
-#  tty: true
-#  volumes:
-#    - "/etc/localtime:/etc/localtime:ro"
-#    - "/etc/timezone:/etc/timezone:ro"
-#    - "./openhab/userdata:/openhab/userdata"
-#    - "./openhab/conf:/openhab/conf"
-#  environment:
-#    OPENHAB_HTTP_PORT: "8082"
-#    OPNEHAB_HTTPS_PORT: "8444"
-#  ports:
-#   - 8082:8080
-#   - 8444:8443
-#  command: server
-#  user: "997"
+  smartvisu:
+  #  image: julakali/nginx-php-fpm
+    image: richarvey/nginx-php-fpm
+  #  image: henfri/smartvisu
+    volumes:
+     - ./smartVISU/:/var/www/html
+    ports:
+     - 8080:80
+    links:
+     - smarthome-ng
+    restart: always
+
+  influxdb:
+    image: influxdb:latest
+    volumes:
+     - ./influxvarlib/:/var/lib/influxdb
+    ports:
+     - 8083:8083
+     - 8086:8086
+     - 8090:8090
+    environment:
+     - INFLUXDB_ADMIN_ENABLED=true
+    restart: always
+
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+     - ./grafanavarlib/:/var/lib/grafana
+    ports:
+     - 3000:3000
+    restart: always
+    links:
+     - influxdb
+
+
+  #openhab:
+  #  image: "openhab/openhab:2.2.0-amd64-debian"
+  #  restart: always
+  #  net: host
+  #  tty: true
+  #  volumes:
+  #    - "/etc/localtime:/etc/localtime:ro"
+  #    - "/etc/timezone:/etc/timezone:ro"
+  #    - "./openhab/userdata:/openhab/userdata"
+  #    - "./openhab/conf:/openhab/conf"
+  #  environment:
+  #    OPENHAB_HTTP_PORT: "8082"
+  #    OPNEHAB_HTTPS_PORT: "8444"
+  #  ports:
+  #   - 8082:8080
+  #   - 8444:8443
+  #  command: server
+  #  user: "997"
