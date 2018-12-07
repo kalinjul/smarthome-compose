@@ -1,4 +1,4 @@
-version: "2"
+version: "2.1"
 
 services:
   smarthome-ng:
@@ -57,6 +57,10 @@ services:
     restart: always
     depends_on:
       - "influxdb"
+    logging:
+      driver: json-file
+      options:
+        max-size: 512m
 
 
   knxd:
@@ -65,7 +69,7 @@ services:
     ports:
   #  - "4720:4720"
     - "6720:6720"
-    - "3671/udp:3671/udp"
+    - "3671:3671/udp"
     - "3672:3672"
     network_mode: "host"
   # command: knxd -e 1.1.240 -E 1.1.241:8 -DTRS -c -i --send-delay=30 -b ipt:192.168.2.220
@@ -114,6 +118,11 @@ services:
     environment:
      - INFLUXDB_ADMIN_ENABLED=true
     restart: always
+    healthcheck:
+      test: "curl -f http://localhost:8086/ping"
+      interval: 3s
+      timeout: 10s
+      retries: 5
 
   grafana:
     image: grafana/grafana:latest
@@ -124,7 +133,6 @@ services:
     restart: always
     links:
      - influxdb
-
 
   #openhab:
   #  image: "openhab/openhab:2.2.0-amd64-debian"
