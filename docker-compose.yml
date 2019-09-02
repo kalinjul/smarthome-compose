@@ -104,9 +104,18 @@ services:
     volumes:
      - ./smartVISU/:/var/www/html
     ports:
-     - 8080:80
+     - 8081:80
     links:
      - smarthome-ng
+    networks:
+      - web
+      - internal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=smartvisu"
+      - "traefik.docker.network=web"
+      - "traefik.frontend.rule=Host:smartvisu"
+      - "traefik.port=80"
     restart: always
 
   influxdb:
@@ -133,6 +142,15 @@ services:
     ports:
      - 3000:3000
     restart: always
+    networks:
+      - web
+      - internal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=grafana"
+      - "traefik.docker.network=web"
+      - "traefik.frontend.rule=Host:grafana"
+      - "traefik.port=3000"
     links:
      - influxdb
 
@@ -154,3 +172,9 @@ services:
   #   - 8444:8443
   #  command: server
   #  user: "997"
+
+
+networks:
+  internal:
+  web:
+    external: true
