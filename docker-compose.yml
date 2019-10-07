@@ -33,9 +33,12 @@ services:
      - /dev:/dev
     privileged: true
     devices:
-      - /dev/ttyHeizung:/dev/ttyHeizung
-      - /dev/ttyStrom:/dev/ttyStrom
-      - /dev/ttyStromWP:/dev/ttyStromWP
+#      - /dev/ttyHeizung:/dev/ttyHeizung
+      - /dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0:/dev/ttyHeizung
+#      - /dev/ttyStrom:/dev/ttyStrom
+      - /dev/serial/by-id/usb-Silicon_Labs_CP2104_USB_to_UART_Bridge_Controller_015ACCEE-if00-port0:/dev/ttyStrom
+#      - /dev/ttyStromWP:/dev/ttyStromWP
+      - /dev/serial/by-id/usb-Silicon_Labs_CP2104_USB_to_UART_Bridge_Controller_015AC06C-if00-port0:/dev/ttyStromWP
 
     ports:
      - "2323:2323" # cli port (telnet)
@@ -59,6 +62,9 @@ services:
     restart: always
     depends_on:
       - "influxdb"
+    networks:
+      - web
+      - default
     logging:
       driver: json-file
       options:
@@ -109,12 +115,12 @@ services:
      - smarthome-ng
     networks:
       - web
-      - internal
+      - default
     labels:
       - "traefik.enable=true"
       - "traefik.backend=smartvisu"
       - "traefik.docker.network=web"
-      - "traefik.frontend.rule=Host:smartvisu"
+      - "traefik.frontend.rule=Host:smartvisu,smartvisu.julakali.org"
       - "traefik.port=80"
     restart: always
 
@@ -129,6 +135,9 @@ services:
     environment:
      - INFLUXDB_ADMIN_ENABLED=true
     restart: always
+    networks:
+      - web
+      - default
     healthcheck:
       test: "curl -f http://localhost:8086/ping"
       interval: 60s
@@ -144,12 +153,12 @@ services:
     restart: always
     networks:
       - web
-      - internal
+      - default
     labels:
       - "traefik.enable=true"
       - "traefik.backend=grafana"
       - "traefik.docker.network=web"
-      - "traefik.frontend.rule=Host:grafana"
+      - "traefik.frontend.rule=Host:grafana,grafana.julakali.org"
       - "traefik.port=3000"
     links:
      - influxdb
@@ -175,6 +184,5 @@ services:
 
 
 networks:
-  internal:
   web:
     external: true
