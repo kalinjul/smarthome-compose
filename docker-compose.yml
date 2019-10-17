@@ -132,8 +132,11 @@ services:
      - 8083:8083
      - 8086:8086
      - 8090:8090
+     - 8089:8089
     environment:
+     - INFLUXDB_UDP_ENABLED=true
      - INFLUXDB_ADMIN_ENABLED=true
+     - INFLUXDB_UDP_DATABASE=smarthome
     restart: always
     networks:
       - web
