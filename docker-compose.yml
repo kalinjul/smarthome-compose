@@ -14,6 +14,7 @@ services:
      - ./myconfig/smarthomeng/plugins/thz:/usr/local/smarthome/plugins/thz
      - ./myconfig/smarthomeng/plugins/sml:/usr/local/smarthome/plugins/sml
      - ./myconfig/smarthomeng/plugins/openweathermap:/usr/local/smarthome/plugins/openweathermap
+     - ./myconfig/smarthomeng/plugins/influxdb:/usr/local/smarthome/plugins/influxdb # custom variant to support knx with 1.6
   #   - ./config/smarthomeng/var:/usr/local/smarthome/var # var needs to contain a "run" and "log" directory, makes no sense as volume
      - ./config/smarthomeng/plugins/ag980:/usr/local/smarthome/plugins/ag980
      - ./config/smarthomeng/plugins/logiceditor:/usr/local/smarthome/plugins/logiceditor
@@ -23,7 +24,6 @@ services:
      - ./config/smarthomeng/plugins/denon:/usr/local/smarthome/plugins/denon
      - ./config/smarthomeng/plugins/wol:/usr/local/smarthome/plugins/wol
      - ./config/smarthomeng/plugins/speech:/usr/local/smarthome/plugins/speech
-     - ./config/smarthomeng/plugins/influx:/usr/local/smarthome/plugins/influx
      - ./config/smarthomeng/plugins/alexa:/usr/local/smarthome/plugins/alexa
      - ./config/smarthomeng/plugins/chromecast:/usr/local/smarthome/plugins/chromecast
      - ./config/smarthomeng/plugins/IpythonServer:/usr/local/smarthome/plugins/IpythonServer
