@@ -71,131 +71,25 @@ services:
         max-size: 512m
 
 
-  knxd:
-  #  build: ./knxd/.
-    image: julakali/knxd:v0.14.24-1
-    ports:
-  #  - "4720:4720"
-    - "6720:6720"
-    - "3671:3671/udp"
-    - "3672:3672"
-    network_mode: "host"
-  # command: knxd -e 1.1.240 -E 1.1.241:8 -DTRS -c -i --send-delay=30 -b ipt:192.168.2.220
-  # mount own config to knxd.ini!
-    volumes:
-      - ./config/knxd.ini:/etc/knxd.ini
-    command: knxd /etc/knxd.ini
-    restart: always
-    logging:
-      options:
-        max-size: 10m
-
-  #owfs:
-  #  build: ./owfs/.
-  #  image: henfri/owfs
-  #  devices:
-  #  - /dev/PBM:/dev/PBM
-  #  - /dev/ttyUSB0:/dev/ttyUSB0
-  #  command: /usr/sbin/owserver -p 0.0.0.0:4304 --pbm=/dev/ttyUSB0 --error_level=0 --error_print=2 --foreground > /dev/null 2>&1 #/dev/PBM  -uall -uscan
-  #  command: /bin/sh -c "/usr/sbin/owserver -p 0.0.0.0:4304 --pbm=/dev/ttyUSB0 & while true;  do sleep 120; done"
-
-  #  ports:
-  #   - "4304:4304"
-  #  command: /usr/bin/supervisord
-  #  restart: always
-  #  privileged: true
-
-
-  smartvisu:
-  #  image: julakali/nginx-php-fpm
-    image: richarvey/nginx-php-fpm
-  #  image: henfri/smartvisu
-    volumes:
-     - ./smartVISU/:/var/www/html
-    ports:
-     - 8081:80
-    links:
-     - smarthome-ng
-    networks:
-      - web
-      - default
-    labels:
-      - "traefik.enable=true"
-      - "traefik.backend=smartvisu"
-      - "traefik.docker.network=web"
-      - "traefik.frontend.rule=Host:smartvisu,smartvisu.julakali.org"
-      - "traefik.port=80"
-    restart: always
-    logging:
-      options:
-        max-size: 10m
-
-  # influxdb:
-  #   image: influxdb:latest
-  #   volumes:
-  #    - ./influxvarlib/:/var/lib/influxdb
+  # knxd:
+  # #  build: ./knxd/.
+  #   image: julakali/knxd:v0.14.24-1
   #   ports:
-  #    - 8083:8083
-  #    - 8086:8086
-  #    - 8090:8090
-  #    - 8089:8089
-  #   environment:
-  #    - INFLUXDB_UDP_ENABLED=true
-  #    - INFLUXDB_ADMIN_ENABLED=true
-  #    - INFLUXDB_UDP_DATABASE=smarthome
+  # #  - "4720:4720"
+  #   - "6720:6720"
+  #   - "3671:3671/udp"
+  #   - "3672:3672"
+  #   network_mode: "host"
+  # # command: knxd -e 1.1.240 -E 1.1.241:8 -DTRS -c -i --send-delay=30 -b ipt:192.168.2.220
+  # # mount own config to knxd.ini!
+  #   volumes:
+  #     - ./config/knxd.ini:/etc/knxd.ini
+  #   command: knxd /etc/knxd.ini
   #   restart: always
-  #   networks:
-  #     - web
-  #     - default
-  #   healthcheck:
-  #     test: "curl -f http://localhost:8086/ping"
-  #     interval: 60s
-  #     timeout: 10s
-  #     retries: 5
   #   logging:
   #     options:
   #       max-size: 10m
 
-  #grafana:
-  #  image: grafana/grafana:latest
-  #  volumes:
-  #   - ./grafanavarlib/:/var/lib/grafana
-  #  ports:
-  #   - 3000:3000
-  #  restart: always
-  #  networks:
-  #    - web
-  #    - default
-  #  labels:
-  #    - "traefik.enable=true"
-  #    - "traefik.backend=grafana"
-  #    - "traefik.docker.network=web"
-  #    - "traefik.frontend.rule=Host:grafana,grafana.julakali.org"
-  #    - "traefik.port=3000"
-  #  # links:
-  #  #  - influxdb
-  #  logging:
-  #    options:
-  #      max-size: 10m
-
-  #openhab:
-  #  image: "openhab/openhab:2.2.0-amd64-debian"
-  #  restart: always
-  #  net: host
-  #  tty: true
-  #  volumes:
-  #    - "/etc/localtime:/etc/localtime:ro"
-  #    - "/etc/timezone:/etc/timezone:ro"
-  #    - "./openhab/userdata:/openhab/userdata"
-  #    - "./openhab/conf:/openhab/conf"
-  #  environment:
-  #    OPENHAB_HTTP_PORT: "8082"
-  #    OPNEHAB_HTTPS_PORT: "8444"
-  #  ports:
-  #   - 8082:8080
-  #   - 8444:8443
-  #  command: server
-  #  user: "997"
 
 
 networks:
